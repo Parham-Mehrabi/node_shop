@@ -1,5 +1,5 @@
 const request = require('supertest')
-
+const mongoose = require('mongoose')
 
 describe('test end points response codes', () => {
     let server;
@@ -7,7 +7,8 @@ describe('test end points response codes', () => {
         server = await require('../../index')
     })
     afterAll(async () => {
-        await server.close()
+        server.close()
+        await mongoose.connection.close()
     })
     describe('/api/v1/products/', () => {
         it('Should return 200 for /', async () => {
