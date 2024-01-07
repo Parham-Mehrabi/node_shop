@@ -1,0 +1,3 @@
+{
+    "db": "mongodb://localhost/demo_shop_node"
+}

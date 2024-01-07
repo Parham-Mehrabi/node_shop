@@ -1,7 +1,9 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const config = require('config');
+
 
 module.exports = async function () {
-    // TODO use Environment Variable for database URL
-    await mongoose.connect('mongodb://localhost:27017/demo_shop_node')
-    console.log('Connected To Database')
+    const db = config.get('db')
+    await mongoose.connect(db)
+    console.log('Db Connected at ' + db)
 }
