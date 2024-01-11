@@ -17,6 +17,7 @@ const productSchema = new mongoose.Schema({
         ref: 'category',
         required: true,
     },
+    description: String,
     price: {
         type: mongoose.Schema.Types.Number,
         required: true
