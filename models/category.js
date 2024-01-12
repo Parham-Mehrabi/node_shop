@@ -4,9 +4,14 @@ const categorySchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        
+        unique: true,
+        trim: true,
+        maxLength: 128,
+    },
+    description: {
+        type:String,
+        maxLength: 1024
     }
-    // TODO: complete category Schema and model
 })
 
 const Category = mongoose.model('Category', categorySchema);
