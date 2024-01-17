@@ -4,8 +4,8 @@ const winston = require('winston');
 app = express();
 
 
-//
-require('./startup/logger')()
+// load Logger
+require('./startup/logger')();
 
 // Connect to DataBase
 require('./startup/db')();
