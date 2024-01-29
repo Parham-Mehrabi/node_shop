@@ -9,12 +9,11 @@ const COUNT = parseInt(process.argv[2]) || 10
 
 const db_url = config.get('db')
 
-console.log(db_url)
 async function createUsers(count) {
     try {
         const my_promises = []
         await mongoose.connect(db_url);
-        for (count = COUNT; count > 0; --count) {
+        for (count; count > 0; --count) {
             const UserObject = new User;
             UserObject.email = Faker.email()
             UserObject.address = Faker.address()
