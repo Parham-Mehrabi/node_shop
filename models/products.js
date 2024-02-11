@@ -3,7 +3,7 @@ const User = require('./users')
 
 const reviewSchema = new mongoose.Schema({
     author: {
-        type: User
+        type: User.schema
     },
     published: {
         type: Boolean,
