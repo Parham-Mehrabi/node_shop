@@ -5,12 +5,8 @@ const User = require('../models/users')
 
 async function get_random_user() {
     //  return a random user from db
-
     try {
-
-        // connect db
-        await mongoose.connect(config.get('db'))
-
+        
         // get user counts
         const user_count = await User.countDocuments();
 
@@ -18,17 +14,15 @@ async function get_random_user() {
         const chosen = Math.floor(Math.random() * user_count)
 
         // get the user
-        const random_user = User.aggregate(
+        const random_user = await User.aggregate(
             [
                 { $skip: chosen },
                 { $limit: 1 }
             ]
-        ).exec()
-        
-        console.log('-------')
-        console.log(await random_user)
-        return random_user
+        ).exec();        
+        return random_user[0]
     } catch (e) { console.log(e) }
+
 }
 
 module.exports = get_random_user
