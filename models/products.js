@@ -2,8 +2,10 @@ const mongoose = require('mongoose');
 const User = require('./users')
 
 const reviewSchema = new mongoose.Schema({
-    author: {
-        type: User.schema
+    author: User.schema,
+    content: {
+        type: String,
+        required: true,
     },
     published: {
         type: Boolean,
