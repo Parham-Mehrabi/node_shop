@@ -3,6 +3,8 @@ const fakeUser = require('../../faker/create_user');
 const User = require('../../models/users');
 const fakeCategory = require('../../faker/create_category');
 const Category = require('../../models/category');
+const fakeProduct = require('../../faker/create_products')
+const Product = require('../../models/products')
 
 
 describe("Testing fakers", () => {
@@ -11,6 +13,7 @@ describe("Testing fakers", () => {
         await require('../../startup/db')()
         await User.deleteMany({})
         await Category.deleteMany({})
+        await Product.deleteMany({})
     })
     afterEach(() => {
         mongoose.connection.close()
@@ -33,6 +36,22 @@ describe("Testing fakers", () => {
         let after_count = (await Category.find({})).length
         expect(before_count).toBe(0)
         expect(after_count).toBe(10)
-    });
+    }); 
+
+    it("should create 10 random categories and 20 products products", async () => {
+        let before_count_cate = (await Category.find({})).length
+        await fakeCategory(10)
+        await require('../../startup/db')()
+        let after_count_cate = (await Category.find({})).length
+        let before_count_prod = (await Product.find({})).length
+        await fakeProduct(20)
+        await require('../../startup/db')()
+        let after_count_prod = (await Product.find({})).length
+
+        expect(before_count_cate).toBe(0)
+        expect(after_count_cate).toBe(10)
+        expect(before_count_prod).toBe(0)
+        expect(after_count_prod).toBe(20)
+    }); 
 
 });
