@@ -18,20 +18,21 @@ async function createProducts(count) {
             productObject.category = shuffled_categories[0]._id
             productObject.description = Faker.paragraph()
             productObject.price = Faker.integer({ min: 5, max: 10000 }) * 1000
-            productObject.quantity = Faker.integer({min: 0, max:30})
+            productObject.quantity = Faker.integer({ min: 0, max: 30 })
+            productObject.reviews = []
             my_promises.push(productObject.save())
         }
         const fake_products = await Promise.all(my_promises);
         if (process.env.NODE_ENV != 'test') {
             fake_products.map(product => console.log(`CREATE ${product.name}`))
-        } 
+        }
     }
     catch (e) {
         console.log(e)
     }
     finally {
-        await mongoose.disconnect()
         if (process.env.NODE_ENV != 'test') {
+            await mongoose.disconnect()
             console.log('disconnected from DB')
         }
     }

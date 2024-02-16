@@ -29,8 +29,8 @@ async function createCategory(count) {
         console.log(e)
     }
     finally {
-        await mongoose.disconnect()
         if (process.env.NODE_ENV != 'test') {
+            await mongoose.disconnect()
             console.log('disconnected from DB')
         }
     }
