@@ -32,7 +32,6 @@ describe("Testing fakers", () => {
     it("should create 10 random category", async () => {
         let before_count = (await Category.find({})).length
         await fakeCategory(10)
-        await require('../../startup/db')()
         let after_count = (await Category.find({})).length
         expect(before_count).toBe(0)
         expect(after_count).toBe(10)
@@ -41,17 +40,15 @@ describe("Testing fakers", () => {
     it("should create 10 random categories and 20 products products", async () => {
         let before_count_cate = (await Category.find({})).length
         await fakeCategory(10)
-        await require('../../startup/db')()
         let after_count_cate = (await Category.find({})).length
         let before_count_prod = (await Product.find({})).length
         await fakeProduct(20)
-        await require('../../startup/db')()
         let after_count_prod = (await Product.find({})).length
 
-        expect(before_count_cate).toBe(0)
-        expect(after_count_cate).toBe(10)
-        expect(before_count_prod).toBe(0)
-        expect(after_count_prod).toBe(20)
+        expect(before_count_cate).toBe(0)   // category count before faker
+        expect(before_count_prod).toBe(0)   // products count before faker
+        expect(after_count_cate).toBe(10)   // category count after faker
+        expect(after_count_prod).toBe(20)   // category count after
     }); 
 
 });
