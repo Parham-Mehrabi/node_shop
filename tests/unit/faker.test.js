@@ -8,18 +8,16 @@ const Product = require('../../models/products')
 
 
 describe("Testing fakers", () => {
-    beforeEach(async () => {
+    beforeAll(async () => {
         require('../../startup/logger')()
         await require('../../startup/db')()
-        await User.deleteMany({})
-        await Category.deleteMany({})
-        await Product.deleteMany({})
     })
-    afterEach(() => {
+    afterAll(() => {
         mongoose.connection.close()
     })
 
     it("should create 10 random users", async () => {
+        await User.deleteMany({})
         let before_count = (await User.find({})).length
         await fakeUser(10)
         await require('../../startup/db')()
@@ -30,6 +28,7 @@ describe("Testing fakers", () => {
 
 
     it("should create 10 random category", async () => {
+        await Category.deleteMany({})
         let before_count = (await Category.find({})).length
         await fakeCategory(10)
         let after_count = (await Category.find({})).length
@@ -38,6 +37,8 @@ describe("Testing fakers", () => {
     }); 
 
     it("should create 10 random categories and 20 products products", async () => {
+        await Category.deleteMany({})
+        await Product.deleteMany({})
         let before_count_cate = (await Category.find({})).length
         await fakeCategory(10)
         let after_count_cate = (await Category.find({})).length
