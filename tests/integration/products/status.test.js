@@ -5,14 +5,15 @@ const get_random_user = require('../../../utils/get_random_user')
 
 describe('test products end-points response codes', () => {
     let server;
-    beforeAll(async () => {
+    beforeEach(async () => {
         server = await require('../../../index');
     })
     afterAll(async () => {
-        server.close()
         await mongoose.connection.close();
     })
-    
+    afterEach(async () =>{
+        await server.close()
+    })
     describe('/api/v1/products/', () => {
         beforeAll(() => {
             // TODO: create 2 products and 2 categories before tests
