@@ -1,7 +1,7 @@
-const mongoose = require('mongoose');
-const chance = require('chance');
-const Category = require('../models/category');
-const config = require('config');
+import mongoose from 'mongoose';
+import chance from 'chance';
+import Category from '../models/category.js';
+import config from 'config';
 
 const Faker = new chance
 const COUNT = parseInt(process.argv[2]) || 10
@@ -9,7 +9,7 @@ const COUNT = parseInt(process.argv[2]) || 10
 
 const db_url = config.get('db')
 
-async function createCategory(count) {
+export default async function createCategory(count) {
     try {
         const my_promises = []
         await mongoose.connect(db_url);
@@ -39,7 +39,3 @@ async function createCategory(count) {
 if (process.env.NODE_ENV != 'test') {
     createCategory(COUNT)
 }
-
-
-module.exports = createCategory
-

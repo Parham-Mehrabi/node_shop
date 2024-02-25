@@ -1,4 +1,3 @@
-// const winston = require('winston')
 import winston from 'winston'
 
 const ENV = process.env.NODE_ENV

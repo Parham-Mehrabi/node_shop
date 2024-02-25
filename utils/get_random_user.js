@@ -1,9 +1,7 @@
-const mongoose = require('mongoose')
-const config = require('config')
-const User = require('../models/users')
+import User from '../models/users.js';
 
 
-async function get_random_user() {
+export default async function get_random_user() {
     //  return a random user from db
     try {
         
@@ -24,5 +22,3 @@ async function get_random_user() {
     } catch (e) { console.log(e) }
 
 }
-
-module.exports = get_random_user

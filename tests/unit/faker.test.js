@@ -1,10 +1,10 @@
-const mongoose = require('mongoose')
-const fakeUser = require('../../faker/create_user');
-const User = require('../../models/users');
-const fakeCategory = require('../../faker/create_category');
-const Category = require('../../models/category');
-const fakeProduct = require('../../faker/create_products')
-const Product = require('../../models/products')
+import mongoose from 'mongoose';
+import fakeUser from '../../faker/create_user.js';
+import User from '../../models/users.js';
+import fakeCategory from '../../faker/create_category.js';
+import Category from '../../models/category.js';
+import fakeProduct from '../../faker/create_products.js';
+import Product from '../../models/products.js';
 
 
 describe("Testing fakers", () => {

@@ -1,13 +1,15 @@
-const config = require('config')
-const mongoose = require('mongoose');
-const chance = require('chance');
-const Category = require('../models/category');
-const Product = require('../models/products');
+import mongoose from 'mongoose';
+import chance from 'chance';
+import config from 'config';
+import Product from '../models/products.js';
+import Category from '../models/category.js';
+
+
 
 const Faker = new chance;
 const db_url = config.get('db');
 
-async function createProducts(count) {
+export default async function createProducts(count) {
     const my_promises = []
     try {
         const categories = await Category.find({})
@@ -46,5 +48,3 @@ if (process.env.NODE_ENV != 'test') {
     })
 
 }
-
-module.exports = createProducts;

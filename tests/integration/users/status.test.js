@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const request = require('supertest');
+import mongoose from 'mongoose.js';
+import request from 'supertest.js';
 
 
 describe('test products end-points response codes /api/v1/users', () => {

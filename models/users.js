@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const { isEmail } = require('validator')
+import mongoose from 'mongoose'
+import { isEmail } from 'validator';
 
 const userSchema = new mongoose.Schema({
     email: {
@@ -36,4 +36,4 @@ userSchema.index({ email: 1 });
 
 const User = mongoose.model('User', userSchema);
 
-module.exports = User;
+export default User;

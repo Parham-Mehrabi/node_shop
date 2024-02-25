@@ -1,8 +1,7 @@
-const mongoose = require('mongoose')
-const get_random_product = require('../../utils/get_random_product')
-const Product = require('../../models/products')
-const get_random_user = require('../../utils/get_random_user')
-const fakeProduct = require('../../faker/create_products')
+import mongoose from 'mongoose';
+import Product from '../../models/products.js';
+import fakeProduct from '../../faker/create_products.js';
+import get_random_product from '../../utils/get_random_product.js';
 
 describe("Testing Utils", () => {
 

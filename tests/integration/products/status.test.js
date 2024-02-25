@@ -1,6 +1,7 @@
-const request = require('supertest');
-const mongoose = require('mongoose');
-const get_random_user = require('../../../utils/get_random_user')
+import request from 'supertest'
+import mongoose from 'mongoose'
+
+import get_random_user from '../../../utils/get_random_user.js'
 
 
 describe('test products end-points response codes', () => {

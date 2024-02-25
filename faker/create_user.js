@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const chance = require('chance');
-const User = require('../models/users');
-const config = require('config');
+import mongoose from 'mongoose';
+import chance from 'chance';
+import config from 'config';
+import User from '../models/users.js';
 
 const Faker = new chance
 const COUNT = parseInt(process.argv[2]) || 10
@@ -9,7 +9,7 @@ const COUNT = parseInt(process.argv[2]) || 10
 
 const db_url = config.get('db')
 
-async function createUsers(count) {
+export default async function createUsers(count) {
     try {
         const my_promises = []
         await mongoose.connect(db_url);
@@ -39,7 +39,3 @@ async function createUsers(count) {
 if (process.env.NODE_ENV != 'test') {
     createUsers(COUNT)
 }
-
-
-
-module.exports = createUsers

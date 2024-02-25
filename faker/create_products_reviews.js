@@ -1,13 +1,14 @@
-const config = require('config')
-const mongoose = require('mongoose');
-const chance = require('chance');
-const Product = require('../models/products');
-const get_random_user = require('../utils/get_random_user')
+import mongoose from 'mongoose';
+import chance from 'chance';
+import config from 'config';
+import Product from '../models/products.js';
+import get_random_user from '../utils/get_random_user.js'
+
 
 const Faker = new chance;
 const db_url = config.get('db');
 
-async function createProductsReviews() {
+export default async function createProductsReviews() {
     try {
         const products = await Product.find({})
         if (products.length == 0) console.log('No Product Found. fake some products before faking reviews')
@@ -43,6 +44,3 @@ if (process.env.NODE_ENV != 'test') {
     })
 
 }
-
-
-module.exports = createProductsReviews;

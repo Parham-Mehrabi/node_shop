@@ -1,5 +1,4 @@
-const mongoose = require('mongoose');
-const User = require('./users');
+import mongoose from 'mongoose';
 
 const reviewSchema = new mongoose.Schema({
     author: {
@@ -45,5 +44,5 @@ const productSchema = new mongoose.Schema({
 
 const Product = mongoose.model('Product', productSchema)
 
-module.exports = Product;
+export default Product;
 

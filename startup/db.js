@@ -1,6 +1,3 @@
-// const mongoose = require('mongoose');
-// const config = require('config');
-// const winston = require('winston');
 import mongoose from 'mongoose';
 import config from 'config';
 import winston from 'winston';
