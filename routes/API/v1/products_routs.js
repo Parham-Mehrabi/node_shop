@@ -1,4 +1,4 @@
-const express = require('express');
+import express from 'express';
 
 const products_router = express.Router({ mergeParams: true });
 
@@ -6,4 +6,4 @@ products_router.get('/', (req, res) => {
     res.send('ok')
 })
 
-module.exports = products_router
+export default products_router

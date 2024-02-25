@@ -1,7 +1,7 @@
-const products_routes = require('../routes/API/v1/products_routs')
-const users_router = require('../routes/API/v1/users_routs')
+import products_routes from '../routes/API/v1/products_routs.js'
+import users_router from '../routes/API/v1/users_routs.js'
 
-module.exports = function(app){
+export default function(app){
     
     // TODO: add routes here
     app.use('/api/v1/products/', products_routes);

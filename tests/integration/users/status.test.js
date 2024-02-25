@@ -18,4 +18,3 @@ describe('test products end-points response codes /api/v1/users', () => {
         expect(result.status).toBe(200);
     })
 })
-q

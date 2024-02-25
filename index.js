@@ -1,20 +1,27 @@
-const express = require('express');
-const winston = require('winston');
+// const express = require('express');
+// const winston = require('winston');
+import winston from 'winston'
+import express from 'express'
+import logger from './startup/logger.js'
+import db from './startup/db.js'
+import router from './startup/router.js'
 
-app = express();
+
+const app = express();
 
 
 // load Logger
-require('./startup/logger')();
+logger();
 
 // Connect to DataBase
-require('./startup/db')();
+db();
 
 // load the router
-require('./startup/router')(app);
+router(app);
 
 
 const port = process.env.NODE_PORT || 3000;
+
 const server = app.listen(port, () => {winston.info('Listening on port ' + port)});
 
-module.exports = server;
+export default server;
