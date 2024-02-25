@@ -1,5 +1,7 @@
 const request = require('supertest');
 const mongoose = require('mongoose');
+const get_random_user = require('../../../utils/get_random_user')
+
 
 describe('test products end-points response codes', () => {
     let server;
@@ -21,7 +23,9 @@ describe('test products end-points response codes', () => {
         })
 
         it('GET /:id should return 200', async () => {
-            const result = await request(server).get('/api/v1/products/' + id);
+            user = await get_random_user()
+
+            const result = await request(server).get('/api/v1/products/' + user._id);
             expect(result.status).toBe(200);
         })
 
