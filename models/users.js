@@ -1,14 +1,8 @@
 import mongoose from 'mongoose'
-import { isEmail } from 'validator';
+import Joi from 'joi';
 
 const userSchema = new mongoose.Schema({
-    email: {
-        type: String,
-        trim: true,
-        unique: true,
-        lowercase: true,
-        validate: [isEmail, 'Invalid email format']
-    },
+    email: Joi.string().email().required(),
     profilePicture: {
         data: Buffer,
         contentType: String,
