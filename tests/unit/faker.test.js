@@ -5,12 +5,14 @@ import fakeCategory from '../../faker/create_category.js';
 import Category from '../../models/category.js';
 import fakeProduct from '../../faker/create_products.js';
 import Product from '../../models/products.js';
+import db from '../../startup/db';
+import logger from '../../startup/logger';
 
 
 describe("Testing fakers", () => {
     beforeAll(async () => {
-        require('../../startup/logger')()
-        await require('../../startup/db')()
+        logger()
+        await db()
     })
     afterAll(() => {
         mongoose.connection.close()
@@ -20,7 +22,7 @@ describe("Testing fakers", () => {
         await User.deleteMany({})
         let before_count = (await User.find({})).length
         await fakeUser(10)
-        await require('../../startup/db')()
+        await db()
         let after_count = (await User.find({})).length
         expect(before_count).toBe(0)
         expect(after_count).toBe(10)

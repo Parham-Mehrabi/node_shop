@@ -1,13 +1,13 @@
 import request from 'supertest'
 import mongoose from 'mongoose'
-
+import Server from '../../../index.js'
 import get_random_user from '../../../utils/get_random_user.js'
 
 
 describe('test products end-points response codes', () => {
     let server;
     beforeEach(async () => {
-        server = await require('../../../index');
+        server = Server
     })
     afterAll(async () => {
         await mongoose.connection.close();

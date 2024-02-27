@@ -1,11 +1,12 @@
-import mongoose from 'mongoose.js';
-import request from 'supertest.js';
+import mongoose from 'mongoose';
+import request from 'supertest';
+import Server from '../../../index.js'
 
 
 describe('test products end-points response codes /api/v1/users', () => {
     let server;
     beforeAll(async () => {
-        server = await require('../../../index');
+        server = Server;
     })
     afterAll(async () => {
         await mongoose.connection.close();
