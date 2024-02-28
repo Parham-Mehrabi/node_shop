@@ -25,7 +25,7 @@ describe('test products end-points response codes', () => {
         })
 
         it('GET /:id should return 200', async () => {
-            user = await get_random_user()
+            const user = await get_random_user()
 
             const result = await request(server).get('/api/v1/products/' + user._id);
             expect(result.status).toBe(200);
