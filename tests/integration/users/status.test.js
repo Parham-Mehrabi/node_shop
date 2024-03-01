@@ -6,7 +6,7 @@ import Server from '../../../index.js'
 describe('test products end-points response codes /api/v1/users', () => {
     let server;
     beforeAll(async () => {
-        server = Server;
+        server = await Server();
     })
     afterAll(async () => {
         await mongoose.connection.close();

@@ -7,7 +7,7 @@ import get_random_user from '../../../utils/get_random_user.js'
 describe('test products end-points response codes', () => {
     let server;
     beforeEach(async () => {
-        server = Server
+        server = await Server()
     })
     afterAll(async () => {
         await mongoose.connection.close();
