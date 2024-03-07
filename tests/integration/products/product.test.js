@@ -7,7 +7,7 @@ import fakeCategory from '../../../faker/create_category.js'
 import db from '../../../startup/db.js'
 import logger from '../../../startup/logger.js'
 import Product from '../../../models/products.js'
-// import get_random_category from '../../../utils/get_random_category.js'    //FIXME
+import get_random_category from '../../../utils/get_random_category.js'
 
 
 describe("/api/v1/products/:id", () => {
@@ -37,7 +37,7 @@ describe("/api/v1/products/:id", () => {
         it("should create a new product with valid data", async () => {
             const new_product = new Product()
             new_product.name = Faker.name();
-            new_product.category = await get_random_category;
+            new_product.category = await get_random_category();
             new_product.description = Faker.paragraph()
             new_product.price = Faker.integer({ min: 5, max: 10000 }) * 1000
             new_product.quantity = Faker.integer({ min: 0, max: 30 })
