@@ -13,27 +13,42 @@ import get_random_category from '../../../utils/get_random_category.js'
 describe("/api/v1/products/:id", () => {
     let server;
     let Faker = new Chance
-    beforeAll(async () => {
-        server = await Server()
-        logger()
-        await db()
-        await Product.deleteMany({})
-        await fakeProduct(5);
-        await fakeCategory(5);
-
-    })
-    afterAll(async () => {
-        await mongoose.connection.close();
-        await server.close()
-    })
     let endPoint = '/api/v1/products/'
     describe("GET /", () => {
+        
+        beforeAll(async () => {
+            server = await Server()
+            logger()
+            await db()
+            await fakeProduct(5);
+            await fakeCategory(5);
+
+        })
+        afterAll(async () => {
+            await Product.deleteMany({})
+            await mongoose.connection.close();
+            await server.close()
+        })
         it("should list the products", async () => {
             const result = await request(server).get(endPoint);
-            expect(result._body.length).toBeGreaterThanOrEqual(5)
+            expect(result._body.length).toBeGreaterThanOrEqual(5);
         })
     })
+
     describe("Post /", () => {
+        beforeAll(async () => {
+            server = await Server()
+            logger()
+            await db()
+            await fakeProduct(5);
+            await fakeCategory(5);
+
+        })
+        afterAll(async () => {
+            await Product.deleteMany({})
+            await mongoose.connection.close();
+            await server.close()
+        })
         it("should create a new product with valid data", async () => {
             const new_product = new Product()
             new_product.name = Faker.name();
@@ -43,8 +58,8 @@ describe("/api/v1/products/:id", () => {
             new_product.quantity = Faker.integer({ min: 0, max: 30 })
             new_product.reviews = []
             const result = await request(server)
-            .post(endPoint)
-            .send(new_product)
+                .post(endPoint)
+                .send(new_product)
             const fetched_product = await Product.findOne(new_product)
             expect(new_product).toMatchObject(fetched_product);
             expect(result.status).toBe(201)
