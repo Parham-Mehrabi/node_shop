@@ -9,9 +9,6 @@ describe('test products end-points response codes /api/v1/users', () => {
         server = await Server();
     })
     afterAll(async () => {
-        await mongoose.connection.close();
-    })
-    afterEach(async () => {
         await server.close()
     })
     it('GET / should return 200', async () => {

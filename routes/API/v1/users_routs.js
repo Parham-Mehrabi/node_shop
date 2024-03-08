@@ -1,5 +1,6 @@
 import express from 'express';
 
+
 const users_router = express.Router({ mergeParams: true });
 
 users_router.get('/', (req, res) => {

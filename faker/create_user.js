@@ -11,8 +11,11 @@ const db_url = config.get('db')
 
 export default async function createUsers(count) {
     try {
+        if (process.env.NODE_ENV != 'test') {
+            await mongoose.connect(db_url);
+        }
+        
         const my_promises = []
-        await mongoose.connect(db_url);
         for (count; count > 0; --count) {
             const UserObject = new User;
             UserObject.email = Faker.email()
@@ -29,8 +32,8 @@ export default async function createUsers(count) {
         console.log(e)
     }
     finally {
-        await mongoose.disconnect()
         if (process.env.NODE_ENV != 'test') {
+            await mongoose.disconnect()
             console.log('disconnected from DB')
         }
     }

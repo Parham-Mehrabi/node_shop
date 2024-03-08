@@ -1,19 +1,13 @@
-import mongoose from 'mongoose';
 import Product from '../../models/products.js';
-import fakeProduct from '../../faker/create_products.js';
 import get_random_product from '../../utils/get_random_product.js';
-import db from '../../startup/db';
-import logger from '../../startup/logger';
+import db from '../../startup/db.js';
+import logger from '../../startup/logger.js';
+
 
 describe("Testing Utils", () => {
-
     beforeAll(async () => {
         logger()
         await db()
-        await fakeProduct(10) 
-    })
-    afterAll(async () => {
-        await mongoose.connection.close()
     })
 
     it("should retrieve a random product", async () => {
