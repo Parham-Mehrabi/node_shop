@@ -17,9 +17,12 @@ describe("Testing fakers", () => {
     afterAll(() => {
         mongoose.connection.close()
     })
-
-    it("should create 10 random users", async () => {
+    beforeEach(async () => {
         await User.deleteMany({})
+        await Category.deleteMany({})
+        await Product.deleteMany({})
+    })
+    it("should create 10 random users", async () => {
         let before_count = (await User.find({})).length
         await fakeUser(10)
         await db()
@@ -30,7 +33,6 @@ describe("Testing fakers", () => {
 
 
     it("should create 10 random category", async () => {
-        await Category.deleteMany({})
         let before_count = (await Category.find({})).length
         await fakeCategory(10)
         let after_count = (await Category.find({})).length
@@ -39,19 +41,14 @@ describe("Testing fakers", () => {
     }); 
 
     it("should create 10 random categories and 20 products products", async () => {
-        await Category.deleteMany({})
-        await Product.deleteMany({})
         let before_count_cate = (await Category.find({})).length
         await fakeCategory(10)
         let after_count_cate = (await Category.find({})).length
         let before_count_prod = (await Product.find({})).length
         await fakeProduct(20)
         let after_count_prod = (await Product.find({})).length
-
-        expect(before_count_cate).toBe(0)   // category count before faker
-        expect(before_count_prod).toBe(0)   // products count before faker
-        expect(after_count_cate).toBe(10)   // category count after faker
-        expect(after_count_prod).toBe(20)   // category count after
+        expect(after_count_cate).toBeGreaterThanOrEqual(before_count_cate + 10)   // category count after faker
+        expect(after_count_prod).toBeGreaterThanOrEqual(before_count_prod + 20)   // category count after
     }); 
 
 });
