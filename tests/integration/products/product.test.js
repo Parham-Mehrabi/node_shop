@@ -37,11 +37,14 @@ describe("/api/v1/products/:id", () => {
             new_product.price = Faker.integer({ min: 5, max: 10000 }) * 1000
             new_product.quantity = Faker.integer({ min: 0, max: 30 })
             new_product.reviews = []
+
             const result = await request(server)
-                .post(endPoint)
-                .send(new_product.toJSON())
+                    .post(endPoint)
+                    .send(new_product.toJSON())
+
             const fetched_product = await Product.findOne(new_product)
-            expect(new_product).toMatchObject(fetched_product);
+
+            expect(fetched_product.toJSON()).toMatchObject(new_product.toJSON());
             expect(result.status).toBe(201)
 
         })

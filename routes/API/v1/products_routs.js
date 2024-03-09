@@ -30,6 +30,7 @@ products_router.post('/', async (req, res) => {
     if (!new_product) return res.status(400).send('Bad Request')
     try {
         await Product.validate(new_product)
+        await new Product(new_product).save()
         return res.status(201).send('ok')
     }
     catch (e) {
