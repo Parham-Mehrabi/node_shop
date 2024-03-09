@@ -39,7 +39,7 @@ describe("/api/v1/products/:id", () => {
             new_product.reviews = []
             const result = await request(server)
                 .post(endPoint)
-                .send(new_product)
+                .send(new_product.toJSON())
             const fetched_product = await Product.findOne(new_product)
             expect(new_product).toMatchObject(fetched_product);
             expect(result.status).toBe(201)

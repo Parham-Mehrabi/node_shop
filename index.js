@@ -6,8 +6,11 @@ import router from './startup/router.js'
 import getPort from 'get-port'
 import esMain from 'es-main'
 
+
 const app = express();
 
+app.use(express.json())                             
+app.use(express.urlencoded({ extended: true }))   
 
 // load Logger
 logger();
