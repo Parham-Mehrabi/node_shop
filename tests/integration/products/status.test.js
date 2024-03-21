@@ -28,8 +28,6 @@ describe('test products end-points response codes', () => {
 
         it('POST / should return 201 for valid data', async () => {
             const valid_product = new Product()
-            // const valid_product = {
-            // }
             valid_product.name = "valid_product_status"
             valid_product.category = (await get_random_category())._id
             valid_product.price = 201000

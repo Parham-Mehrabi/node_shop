@@ -1,5 +1,5 @@
 module.exports = {
-    globalSetup : './setup-jest.js',
+    globalSetup : './jest.setup.js',
     transform: {},
-    globalTeardown: './teardown-jest.js'
+    globalTeardown: './jest.teardown.js'
 };

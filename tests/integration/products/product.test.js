@@ -6,10 +6,9 @@ import logger from '../../../startup/logger.js'
 import Product from '../../../models/products.js'
 import get_random_category from '../../../utils/get_random_category.js'
 
-
-describe("/api/v1/products/:id", () => {
-    let server;
+describe("/api/v1/products/", () => {
     let Faker = new Chance
+    let server;
     let endPoint = '/api/v1/products/'
 
     beforeAll(async () => {
@@ -20,14 +19,7 @@ describe("/api/v1/products/:id", () => {
     afterAll(async () => {
         await server.close()
     })
-    describe("GET /", () => {
-        
-        it("should list the products", async () => {
-            const result = await request(server).get(endPoint);
-            expect(result._body.length).toBeGreaterThanOrEqual(5);
-        })
-    })
-
+    
     describe("Post /", () => {
         it("should create a new product with valid data", async () => {
             const new_product = new Product()
@@ -39,14 +31,23 @@ describe("/api/v1/products/:id", () => {
             new_product.reviews = []
 
             const result = await request(server)
-                    .post(endPoint)
-                    .send(new_product.toJSON())
+                .post(endPoint)
+                .send(new_product.toJSON())
 
             const fetched_product = await Product.findOne(new_product)
 
             expect(fetched_product.toJSON()).toMatchObject(new_product.toJSON());
             expect(result.status).toBe(201)
 
+        })
+    })
+
+    // describe("/api/v1/products/:id", () => {
+
+    describe("GET /", () => {
+        it("should list the products", async () => {
+            const result = await request(server).get(endPoint);
+            expect(result._body.length).toBeGreaterThanOrEqual(5);
         })
     })
 })
