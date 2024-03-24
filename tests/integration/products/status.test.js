@@ -42,6 +42,12 @@ describe('test products end-points response codes', () => {
             .send();
             expect(result.status).toBe(400);
         })
+        it('POST /:id should return 404', async () => {
+            const product = await get_random_product()
+            const result = await request(server).post('/api/v1/products/' + product._id)
+            .send();
+            expect(result.status).toBe(404);
+        })
     })
 
     describe('/api/v1/products/category', () => {

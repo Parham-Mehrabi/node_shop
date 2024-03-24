@@ -19,7 +19,7 @@ describe("/api/v1/products/", () => {
     afterAll(async () => {
         await server.close()
     })
-    
+
     describe("Post /", () => {
         it("should create a new product with valid data", async () => {
             const new_product = new Product()
@@ -41,8 +41,6 @@ describe("/api/v1/products/", () => {
 
         })
     })
-
-    // describe("/api/v1/products/:id", () => {
 
     describe("GET /", () => {
         it("should list the products", async () => {

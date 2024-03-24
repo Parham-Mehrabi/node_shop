@@ -39,10 +39,5 @@ products_router.post('/', async (req, res) => {
 })
 
 
-products_router.post('/:id', (req, res) => {
-    res.send('ok')
-})
-
-
 
 export default products_router
