@@ -59,10 +59,12 @@ describe("/api/v1/products/", () => {
             expect(result.toJSON()).toMatchObject(product.toJSON());
         })
 
-    describe("DELETE /:id", () => {
-        it("should retrieve an specific product", async () => {
-            // Implement after completing Authentication system
-        })
+        describe("DELETE /:id", () => {
+            it("should retrieve an specific product", async () => {
+                // Implement after completing Authentication system
+            })
 
+        })
     })
 })
+
