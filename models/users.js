@@ -1,5 +1,7 @@
 import mongoose from 'mongoose'
 import Joi from 'joi';
+import Jwt from 'jsonwebtoken';
+import config from 'config'
 
 const userSchema = new mongoose.Schema({
     email: Joi.string().email().required(),
@@ -12,7 +14,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: true
     },
-    isAdmin:  {
+    isAdmin: {
         type: Boolean,
         default: false
     },
@@ -27,6 +29,24 @@ const userSchema = new mongoose.Schema({
 })
 
 userSchema.index({ email: 1 });
+
+userSchema.methods.a = function() {
+    console.log('ss')
+    return 1;
+  };
+  
+userSchema.methods.generateAuthToken = function() {
+    const token = Jwt.sign(
+        {
+            _id: this._id,
+            name: this.name,
+            email: this.email,
+            isAdmin: this.isAdmin
+        },
+        config.get('JWT_SECRET')
+    )
+    return token
+}
 
 const User = mongoose.model('User', userSchema);
 
