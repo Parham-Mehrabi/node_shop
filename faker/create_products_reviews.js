@@ -15,7 +15,7 @@ export default async function createProductsReviews() {
         await Promise.all(products.map(async product => {
             let reviews_count = Math.floor(Math.random() * 6)
             for (reviews_count; reviews_count >= 0; --reviews_count) {
-                user = await get_random_user()
+                const user = await get_random_user()
                 const review = {
                     author: user,
                     content: Faker.paragraph()
