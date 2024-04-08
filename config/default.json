@@ -1,3 +1,4 @@
 {
-    "db": "mongodb://localhost/demo_shop_node"
+    "db": "mongodb://localhost/demo_shop_node",
+    "JWT_SECRET": "2c80d1a76bb9e5572884ec88e1cbce7f4fbe5553b7fc7521c4f9e98a941fdda5"
 }
