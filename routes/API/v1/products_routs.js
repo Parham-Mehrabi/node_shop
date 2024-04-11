@@ -19,7 +19,7 @@ products_router.get('/:id', async (req, res) => {
     const id = req.params.id
     if (mongoose.Types.ObjectId.isValid(id)){
         const product = await Product.findById(id)
-        product ? res.send(product) : res.status(404).send('Not Found')
+        product ? res.json(product) : res.status(404).send('Not Found')
         return
     }
     return res.status(400).send("Bad Request")

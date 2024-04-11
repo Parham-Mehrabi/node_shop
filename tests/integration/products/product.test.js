@@ -5,7 +5,8 @@ import db from '../../../startup/db.js'
 import logger from '../../../startup/logger.js'
 import Product from '../../../models/products.js'
 import get_random_category from '../../../utils/get_random_category.js'
-import get_random_user from '../../../utils/get_random_user.js'
+import get_random_product from '../../../utils/get_random_product.js'
+
 
 describe("/api/v1/products/", () => {
     let Faker = new Chance
@@ -54,9 +55,14 @@ describe("/api/v1/products/", () => {
 
     describe("GET /:id", () => {
         it("should retrieve an specific product", async () => {
-            const product = await get_random_user();
-            const result = await request(server).get(endPoint + product._id);
-            expect(result.toJSON()).toMatchObject(product.toJSON());
+            const product = await get_random_product();
+            const result = await request(server).get(endPoint + product._id.toString());
+
+            product._id = product._id.toString()
+            product.category = product.category._id.toString()
+
+            expect(result.body).toMatchObject(product);
+
         })
 
         describe("DELETE /:id", () => {
