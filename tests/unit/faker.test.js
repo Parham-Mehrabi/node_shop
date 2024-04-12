@@ -17,8 +17,7 @@ describe("Testing fakers", () => {
         let before_count = (await User.find({})).length
         await fakeUser(10)
         let after_count = (await User.find({})).length
-        expect(before_count).toBe(5)
-        expect(after_count).toBe(15)
+        expect(after_count - before_count).toBe(10)
     });
 
 
@@ -26,8 +25,7 @@ describe("Testing fakers", () => {
         let before_count = (await Category.find({})).length
         await fakeCategory(10)
         let after_count = (await Category.find({})).length
-        expect(before_count).toBe(5)
-        expect(after_count).toBeGreaterThanOrEqual(15)
+        expect(after_count - before_count).toBe(10)
     }); 
 
     it("should create 10 random categories and 20 products products", async () => {
