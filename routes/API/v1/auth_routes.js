@@ -18,9 +18,7 @@ auth_routes.post('/register', async (req, res) => {
     if (data.error) return res.status(400).send(data.error);
     
     const user = new User(data.value);
-    console.log(data.value)
-    console.log(req.body)
-    user.save();
+    await user.save();
     res.status(201).send(`${user.email} created`);
 
 })
