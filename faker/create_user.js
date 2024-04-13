@@ -20,6 +20,7 @@ export default async function createUsers(count) {
             const UserObject = new User;
             UserObject.email = Faker.email()
             UserObject.address = Faker.address()
+            UserObject.password = "FakedPassword1234"
             my_promises.push(UserObject.save())
         };
         const fake_students = await Promise.all(my_promises);
