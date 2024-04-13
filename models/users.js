@@ -1,10 +1,13 @@
 import mongoose from 'mongoose'
 import Joi from 'joi';
 import Jwt from 'jsonwebtoken';
-import config from 'config'
+import config from 'config';
+import bycrypt from 'bcrypt';
+
 
 const userSchema = new mongoose.Schema({
     email: Joi.string().email().required(),
+    password: Joi.string().required().min(10),
     profilePicture: {
         data: Buffer,
         contentType: String,
@@ -28,12 +31,18 @@ const userSchema = new mongoose.Schema({
     },
 })
 
-userSchema.index({ email: 1 });
+userSchema.pre('save', async function (next){
 
-userSchema.methods.a = function() {
-    console.log('ss')
-    return 1;
-  };
+    if (!this.isModified("password")) {
+        // avoid hashing same password twice
+        return next()
+    }
+    const hashed_password = await bycrypt.hash(this.password, 12);
+    this.password = hashed_password;
+    return next()
+})
+
+userSchema.index({ email: 1 });
   
 userSchema.methods.generateAuthToken = function() {
     const token = Jwt.sign(
