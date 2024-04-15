@@ -22,7 +22,8 @@ describe("test Authentication", () => {
     it("register a new user", async () => {
         let email = Faker.email()
         let data = {
-            "email": email
+            "email": email,
+            "password": "password123456"
         }
         let result = await request(server)
             .post(endPoint + 'register')
@@ -35,7 +36,7 @@ describe("test Authentication", () => {
 
 
     it("should return a valid token for given user", () => {
-
+        
     })
 
     it("should identify a logged in user", () => {

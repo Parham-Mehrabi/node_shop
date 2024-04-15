@@ -7,6 +7,8 @@ const auth_routes = express.Router({mergeParams: true});
 
 const EmailSchema = Joi.object({
     email: Joi.string().email().required().lowercase(),
+    password: Joi.string().required()
+    // FIXME: validate password complexity
 })
 
 // register (create_user)
@@ -24,6 +26,9 @@ auth_routes.post('/register', async (req, res) => {
 })
 
 // authentication (get_token)
+auth_routes.post('/login', async() => {
+    
+})
 
 // authorization (verify_token)
 
