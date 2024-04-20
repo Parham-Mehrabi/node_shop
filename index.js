@@ -5,12 +5,17 @@ import db from './startup/db.js'
 import router from './startup/router.js'
 import getPort from 'get-port'
 import esMain from 'es-main'
-
+import authentication from './middleware/authentication.js'
 
 const app = express();
 
 app.use(express.json())                             
 app.use(express.urlencoded({ extended: true }))   
+
+
+// middleware
+app.use(authentication)
+
 
 // load Logger
 logger();
