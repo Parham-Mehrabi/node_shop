@@ -7,10 +7,11 @@ export default function(req, res, next) {
         const user = jwt.decode(token, config.get("JWT_SECRET"))
         if(user){
             req.user = user;
+        }else{
+            req.user = "anonymous"
         }
     }else{
         req.user = "anonymous"
     }
-    console.log(req.user)
     next()
 }
