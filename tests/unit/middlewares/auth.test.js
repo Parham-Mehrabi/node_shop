@@ -7,14 +7,24 @@ describe("testing authentication middle", () => {
     const user = new User({
         email: "auth@middleware.com",
         _id: new mongoose.Types.ObjectId().toHexString(),
-        isAdmin: true
+    })
+
+
+    it("should populate the req.user with a valid token", () => {
+        const token = user.generateAuthToken()
+        const res = {}
+        const req = {headers: {jwt_token: token}}      // request without token
+        const next = jest.fn()
+        authentication(req, res, next)
+        expect(req.user._id).toBe(user._id.toString())
     })
 
     it("should set user to anonymous if no token is set", () => {
         const res = {}
-        const req = {}      // request without token
+        const req = {headers: {}}      // request without token
         const next = jest.fn()
         authentication(req, res, next)
         expect(req.user).toBe("anonymous")
     })
+    
 })
