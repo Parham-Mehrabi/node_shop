@@ -4,6 +4,9 @@ import User from '../../../models/users';
 import Server from '../../../index';
 import db from '../../../startup/db.js';
 import logger from '../../../startup/logger.js';
+import JWT from "jsonwebtoken"
+import config from "config"
+
 
 describe("test Authentication", () => {
     let endPoint = '/api/v1/auth/'
@@ -35,12 +38,32 @@ describe("test Authentication", () => {
     })
 
 
-    it("should return a valid token for given user", () => {
+    it("should return a valid token for given user", async () => {
         
+        let email = Faker.email()
+        let data = {
+            "email": email,
+            "password": "password123456"
+        }
+        await request(server)
+            .post(endPoint + 'register')
+            .send(data)
+
+        let result = await request(server)
+        .post(endPoint + "login")
+        .send(data)
+        const token  = result._body.token
+        let token_is_valid = false
+        try{
+            const token_user = JWT.decode(token, config.get("JWT_SECRET"))
+            if (token_user.email == email) token_is_valid = true;
+        }catch(e){
+            console.log("invalid token")
+        }
+        
+        expect(result.status).toBe(200)
+        expect(token_is_valid).toBeTruthy()
     })
 
-    it("should identify a logged in user", () => {
-
-    })
 
 })
