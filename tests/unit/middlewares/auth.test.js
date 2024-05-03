@@ -6,7 +6,7 @@ import Jwt from "jsonwebtoken"
 import config from "config"
 // import
 
-describe("testing authentication middlewares", () => {
+describe("Testing authentication middlewares", () => {
     describe("testing authorize middleware", () => {
 
         const user = new User({
@@ -104,9 +104,41 @@ describe("testing authentication middlewares", () => {
             const req = {user: "anonymous"}
             const next = jest.fn()
 
+            authentication.isAdmin(req, res, next)
+
             expect(next).toHaveBeenCalled()
         })
 
+    })
+    describe("testing isAdminOrReadOnly", () => {
+        it("should return pass to next function for Safe methods", () => {
+            const res = {}
+            const req = {user: "anonymous", method: "GET"}
+            const next = jest.fn()
+
+            authentication.isAdminOrReadOnly(req, res, next)
+
+            expect(next).toHaveBeenCalled()
+        })
+        it("should return 405 for Unsafe methods from not admins", () => {
+            const res = {status: jest.fn()}
+            const req = {user: "anonymous", method: "POST"}
+            const next = jest.fn()
+
+            authentication.isAdminOrReadOnly(req, res, next)
+
+            expect(res.status).toHaveBeenCalledWith(405)
+            expect(next).not.toHaveBeenCalled()
+        })
+        it("should pass to next function for admins with Unsafe method", () => {
+            const res = {}
+            const req = {user: {isAdmin:true}, method: "POST"}
+            const next = jest.fn()
+
+            authentication.isAdminOrReadOnly(req, res, next)
+
+            expect(next).toHaveBeenCalled()
+        })
     })
 
 })
