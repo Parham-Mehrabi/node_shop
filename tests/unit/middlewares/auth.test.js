@@ -4,16 +4,16 @@ import mongoose from "mongoose";
 import { jest } from '@jest/globals'
 import Jwt from "jsonwebtoken"
 import config from "config"
-// import
+
 
 describe("Testing authentication middlewares", () => {
+    const user = new User({
+        email: "auth@middleware.com",
+        name: "auth_user",
+        _id: new mongoose.Types.ObjectId().toHexString(),
+    })
     describe("testing authorize middleware", () => {
 
-        const user = new User({
-            email: "auth@middleware.com",
-            name: "auth_user",
-            _id: new mongoose.Types.ObjectId().toHexString(),
-        })
 
 
         it("should populate the req.user with a valid token", () => {
@@ -79,9 +79,9 @@ describe("Testing authentication middlewares", () => {
     describe("testing isAdmin", () => {
         it("should return 403 for not admins", async () => {
 
-            
-            const res = {status:jest.fn()}
-            const req = {user: {isAdmin:false}}
+
+            const res = { status: jest.fn() }
+            const req = { user: { isAdmin: false } }
             const next = jest.fn()
 
             authentication.isAdmin(req, res, next)
@@ -90,8 +90,8 @@ describe("Testing authentication middlewares", () => {
             expect(next).not.toHaveBeenCalled()
         })
         it("should return 400 for not authorized users", async () => {
-            const res = {status:jest.fn()}
-            const req = {user: "anonymous"}
+            const res = { status: jest.fn() }
+            const req = { user: "anonymous" }
             const next = jest.fn()
 
             authentication.isAdmin(req, res, next)
@@ -101,7 +101,7 @@ describe("Testing authentication middlewares", () => {
         })
         it("should pass to the next function for admins", async () => {
             const res = {}
-            const req = {user: "anonymous"}
+            const req = { user: "anonymous" }
             const next = jest.fn()
 
             authentication.isAdmin(req, res, next)
@@ -113,7 +113,7 @@ describe("Testing authentication middlewares", () => {
     describe("testing isAdminOrReadOnly", () => {
         it("should return pass to next function for Safe methods", () => {
             const res = {}
-            const req = {user: "anonymous", method: "GET"}
+            const req = { user: "anonymous", method: "GET" }
             const next = jest.fn()
 
             authentication.isAdminOrReadOnly(req, res, next)
@@ -121,8 +121,8 @@ describe("Testing authentication middlewares", () => {
             expect(next).toHaveBeenCalled()
         })
         it("should return 405 for Unsafe methods from not admins", () => {
-            const res = {status: jest.fn()}
-            const req = {user: "anonymous", method: "POST"}
+            const res = { status: jest.fn() }
+            const req = { user: "anonymous", method: "POST" }
             const next = jest.fn()
 
             authentication.isAdminOrReadOnly(req, res, next)
@@ -132,10 +132,35 @@ describe("Testing authentication middlewares", () => {
         })
         it("should pass to next function for admins with Unsafe method", () => {
             const res = {}
-            const req = {user: {isAdmin:true}, method: "POST"}
+            const req = { user: { isAdmin: true }, method: "POST" }
             const next = jest.fn()
 
             authentication.isAdminOrReadOnly(req, res, next)
+
+            expect(next).toHaveBeenCalled()
+        })
+    })
+
+    describe("testing isAuthenticated", () => {
+
+        it("should return 401 for unauthenticated requests", () => {
+
+            const res = { status: jest.fn() }
+            const req = { user: "anonymous" }
+            const next = jest.fn()
+
+            authentication.idAuthenticated(req, res, next)
+
+            expect(next).not.toHaveBeenCalled()
+            expect(res.status).toHaveBeenLastCalledWith("401")
+        })
+        it("should pass request to next function for authenticated users", () => {
+
+            const res = { status: jest.fn() }
+            const req = { user }
+            const next = jest.fn()
+
+            authentication.idAuthenticated(req, res, next)
 
             expect(next).toHaveBeenCalled()
         })
