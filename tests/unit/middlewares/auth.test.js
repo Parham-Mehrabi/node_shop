@@ -14,8 +14,6 @@ describe("Testing authentication middlewares", () => {
     })
     describe("testing authorize middleware", () => {
 
-
-
         it("should populate the req.user with a valid token", () => {
             const token = user.generateAuthToken()
             const res = {}
@@ -160,9 +158,43 @@ describe("Testing authentication middlewares", () => {
             const req = { user }
             const next = jest.fn()
 
-            authentication.idAuthenticated(req, res, next)
+            authentication.isAuthenticated(req, res, next)
 
             expect(next).toHaveBeenCalled()
+        })
+    })
+
+    describe("testing isAuthenticatedOrReadOnly", () => {
+        it("should pass to next function for Safe method", () => {
+            const res = {}
+            const req = {method: "GET"}
+            const next = jest.fn()
+
+            authentication.isAuthenticatedOrReadOnly(req, res, next)
+
+            expect(next).toHaveBeenCalled()
+
+        })
+        it("should pass to next function for authenticated users", () => {
+            const res = {}
+            const req = {user, method: "GET"}
+            const next = jest.fn()
+
+            authentication.isAuthenticatedOrReadOnly(req, res, next)
+
+            expect(next).toHaveBeenCalled()
+
+        })
+        it("should return 405 for unauthenticated users with unsafe method", () => {
+            const res = {status: jest.fn()}
+            const req = {user: "anonymous", method: "POST"}
+            const next = jest.fn()
+
+            authentication.isAuthenticatedOrReadOnly(req, res, next)
+
+            expect(next).not.toHaveBeenCalled()
+            expect(res.status).toHaveBeenCalledWith(405)
+
         })
     })
 
