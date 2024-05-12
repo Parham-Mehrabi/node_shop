@@ -1,4 +1,5 @@
-import * as authentication from "../../../middleware/authentication"
+import * as authentication from "../../../middleware/authentication";
+import authorize  from "../../../middleware/authentication";
 import User from '../../../models/users'
 import mongoose from "mongoose";
 import { jest } from '@jest/globals'
@@ -19,7 +20,7 @@ describe("Testing authentication middlewares", () => {
             const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
             const req = { headers: { jwt_token: token } }      // request without token
             const next = jest.fn()
-            authentication.authorize(req, res, next)
+            authorize(req, res, next)
             expect(req.user._id).toBe(user._id.toString())
         })
 
@@ -27,7 +28,7 @@ describe("Testing authentication middlewares", () => {
             const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
             const req = { headers: {} }      // request without token
             const next = jest.fn()
-            authentication.authorize(req, res, next)
+            authorize(req, res, next)
 
             expect(req.user.name).toBe("anonymous")
             expect(req.user.message).toBe("unauthorized")
@@ -47,7 +48,7 @@ describe("Testing authentication middlewares", () => {
             const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
             const req = { headers: { jwt_token: token } }      // request without token
             const next = jest.fn()
-            authentication.authorize(req, res, next)
+            authorize(req, res, next)
 
             expect(req.user.name).toBe("anonymous")
             expect(req.user.message).toBe("invalid signature")
@@ -67,7 +68,7 @@ describe("Testing authentication middlewares", () => {
             const res = {}
             const req = { headers: { jwt_token: token } }      // request without token
             const next = jest.fn()
-            authentication.authorize(req, res, next)
+            authorize(req, res, next)
 
             expect(req.user.name).toBe("anonymous")
             expect(req.user.message).toBe("jwt expired")
@@ -89,17 +90,17 @@ describe("Testing authentication middlewares", () => {
         })
         it("should return 400 for not authorized users", async () => {
             const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
-            const req = { user: "anonymous" }
+            const req = { user: { name: "anonymous", message: "unauthorized" } }
             const next = jest.fn()
 
             authentication.isAdmin(req, res, next)
 
-            expect(res.status).toHaveBeenCalledWith(400)
+            expect(res.status).toHaveBeenCalledWith(403)
             expect(next).not.toHaveBeenCalled()
         })
         it("should pass to the next function for admins", async () => {
-            const res = {}
-            const req = { user: "anonymous" }
+            const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
+            const req = { user: {...user, isAdmin: true} }
             const next = jest.fn()
 
             authentication.isAdmin(req, res, next)
@@ -111,7 +112,7 @@ describe("Testing authentication middlewares", () => {
     describe("testing isAdminOrReadOnly", () => {
         it("should pass to next function for Safe methods", () => {
             const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
-            const req = { user: "anonymous", method: "GET" }
+            const req = { user: { name: "anonymous", message: "unauthorized" }, method: "GET" }
             const next = jest.fn()
 
             authentication.isAdminOrReadOnly(req, res, next)
@@ -120,7 +121,7 @@ describe("Testing authentication middlewares", () => {
         })
         it("should return 405 for Unsafe methods from not admins", () => {
             const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
-            const req = { user: "anonymous", method: "POST" }
+            const req = { user: { name: "anonymous", message: "unauthorized" }, method: "POST" }
             const next = jest.fn()
 
             authentication.isAdminOrReadOnly(req, res, next)
@@ -144,13 +145,13 @@ describe("Testing authentication middlewares", () => {
         it("should return 401 for unauthenticated requests", () => {
 
             const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
-            const req = { user: "anonymous" }
+            const req = { user: { name: "anonymous", message: "unauthorized" }}
             const next = jest.fn()
 
-            authentication.idAuthenticated(req, res, next)
+            authentication.isAuthenticated(req, res, next)
 
             expect(next).not.toHaveBeenCalled()
-            expect(res.status).toHaveBeenLastCalledWith("401")
+            expect(res.status).toHaveBeenLastCalledWith(401)
         })
         it("should pass request to next function for authenticated users", () => {
 
@@ -167,7 +168,7 @@ describe("Testing authentication middlewares", () => {
     describe("testing isAuthenticatedOrReadOnly", () => {
         it("should pass to next function for Safe method", () => {
             const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
-            const req = {method: "GET"}
+            const req = {user: { name: "anonymous", message: "unauthorized" }, method: "GET"}
             const next = jest.fn()
 
             authentication.isAuthenticatedOrReadOnly(req, res, next)
@@ -187,7 +188,7 @@ describe("Testing authentication middlewares", () => {
         })
         it("should return 405 for unauthenticated users with unsafe method", () => {
             const res = {status: jest.fn().mockReturnThis(), send: jest.fn()}
-            const req = {user: "anonymous", method: "POST"}
+            const req = {user: { name: "anonymous", message: "unauthorized" }, method: "POST"}
             const next = jest.fn()
 
             authentication.isAuthenticatedOrReadOnly(req, res, next)
