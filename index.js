@@ -9,8 +9,8 @@ import authentication from './middleware/authentication.js'
 
 const app = express();
 
-app.use(express.json())                             
-app.use(express.urlencoded({ extended: true }))   
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 
 
 // middleware
@@ -28,12 +28,12 @@ router(app);
 
 
 
-async function server(port){
+async function server(port) {
     const p = port ? port : await getPort();
-    return app.listen(p, () => {winston.info('Listening on port ' + p)})
+    return app.listen(p, () => { winston.info('Listening on port ' + p) })
 }
 
-if (esMain(import.meta)){
+if (esMain(import.meta)) {
     const port = process.env.NODE_PORT || 3000;
     server(port)
 }

@@ -31,7 +31,7 @@ describe("test Authentication", () => {
         let result = await request(server)
             .post(endPoint + 'register')
             .send(data)
-        let user = await User.findOne({email:email})
+        let user = await User.findOne({ email: email })
 
         expect(user).toBeTruthy()
         expect(result.statusCode).toBe(201)
@@ -39,7 +39,7 @@ describe("test Authentication", () => {
 
 
     it("should return a valid token for given user", async () => {
-        
+
         let email = Faker.email()
         let data = {
             "email": email,
@@ -50,17 +50,17 @@ describe("test Authentication", () => {
             .send(data)
 
         let result = await request(server)
-        .post(endPoint + "login")
-        .send(data)
-        const token  = result._body.token
+            .post(endPoint + "login")
+            .send(data)
+        const token = result._body.token
         let token_is_valid = false
-        try{
+        try {
             const token_user = JWT.decode(token, config.get("JWT_SECRET"))
             if (token_user.email == email) token_is_valid = true;
-        }catch(e){
+        } catch (e) {
             console.log("invalid token")
         }
-        
+
         expect(result.status).toBe(200)
         expect(token_is_valid).toBeTruthy()
     })
